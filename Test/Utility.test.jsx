@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, test, beforeAll, expectTypeOf } from 'vitest'
 import CompoOne from "../src/Component/CompoOne";
 import App from "../src/App"
 
@@ -41,6 +41,19 @@ describe('Component Testing -> CompoOne', () => {
     counterVal = screen.getByTestId('count')
     expect(counterVal).toHaveTextContent('Counter-1')
 
+  })
+})
+
+describe("API Testing", () => {
+  let response = null;
+  let body = null;
+  const NETWORK_TIME_OUT = 20000;
+  test("Dog API Testing", () => {
+    beforeAll(async () => {
+      response = await fetch("https://dog.ceo/api/breeds/image/random")
+      body = await response.json()
+      expect(body.status).toBe("success")
+    }, NETWORK_TIME_OUT)
   })
 })
 
